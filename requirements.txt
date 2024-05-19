@@ -1,0 +1,4 @@
+pandas
+numpy
+seaborn
+-e . # install the package in the current directory
