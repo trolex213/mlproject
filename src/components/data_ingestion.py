@@ -12,6 +12,8 @@ from dataclasses import dataclass
 
 from src.components.data_transformation import DataTransformation
 from src.components.data_transformation import DataTransformationConfig
+from src.components.model_trainer import ModelTrainerConfig
+from src.components.model_trainer import ModelTrainer
 
 # DataIngestion class is responsible for fetching data from the source and storing it in the database. Doing so removes the need to 
 # explicitly define the data source and destination in different parts of the code, can simply call this class to fetch the necessary data files. 
@@ -56,4 +58,10 @@ if __name__ == "__main__":
     train_data, test_data = obj.initiate_data_ingestion()
 
     data_transformation = DataTransformation()
-    data_transformation.initiate_data_transformation(train_data, test_data)
+
+    # _ acts as placeholder for the third value returned by initiate_data_transformation(), indicating we don't want that value. 
+    train_arr, test_arr, _ = data_transformation.initiate_data_transformation(train_data, test_data)
+
+    model_trainer = ModelTrainer()
+    print(model_trainer.initiate_model_trainer(train_arr, test_arr))
+
