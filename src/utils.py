@@ -23,7 +23,7 @@ def save_object(file_path, obj):
         raise CustomException(e, sys)
     
 
-def evaluate_models(X_train, y_train, X_test, y_test, models, param):
+def evaluate_models(X_train, y_train, X_test, y_test, models, params):
     try:
         report = {}
 
@@ -32,7 +32,7 @@ def evaluate_models(X_train, y_train, X_test, y_test, models, param):
             # get the model name
             model = list(models.values())[i]
             # get the model parameters
-            para = param[list(models.keys())[i]]
+            para = params[list(models.keys())[i]]
 
             # perform GridSearchCV to find the best parameters
             gs = GridSearchCV(model, para, cv=3)
