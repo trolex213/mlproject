@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd 
 from src.exceptions import CustomException
 from sklearn.metrics import r2_score
+from sklearn.model_selection import GridSearchCV
 
 def save_object(file_path, obj):
     try:
@@ -30,8 +31,16 @@ def evaluate_models(X_train, y_train, X_test, y_test, models, param):
         for i in range(len(list(models))):
             # get the model name
             model = list(models.values())[i]
-            
-            model.fit(X_train, y_train) # train model 
+            # get the model parameters
+            para = param[list(models.keys())[i]]
+
+            # perform GridSearchCV to find the best parameters
+            gs = GridSearchCV(model, para, cv=3)
+            gs.fit(X_train, y_train)
+
+            # set the model parameters to the best parameters
+            model.set_params(**gs.best_params_)
+            model.fit(X_train, y_train)
 
             y_train_pred = model.predict(X_train) # predict on training data
 
